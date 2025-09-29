@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p class="lead">Investor Dashboard</p>
+            
+            <h4>Available Startups</h4>
+            
+            {% if startups %}
+                <div class="row">
+                    {% for startup in startups %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card status-{{ startup.status }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ startup.title }}</h5>
+                                <p class="card-text">{{ startup.description|truncatewords:20 }}</p>
+                                
+                                <div class="mb-2">
+                                    <strong>Founder:</strong> {{ startup.founder.username }}
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <strong>Funding Required:</strong> ${{ startup.funding_amount }}
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <strong>Equity Offered:</strong> {{ startup.equity_offered }}%
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <strong>Status:</strong> 
+                                    <span class="badge 
+                                        {% if startup.status == 'approved' %}bg-success
+                                        {% elif startup.status == 'declined' %}bg-danger
+                                        {% elif startup.status == 'pending' %}bg-warning
+                                        {% else %}bg-info{% endif %}">
+                                        {{ startup.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <div class="btn-group">
+                                    <a href="{% url 'startup_detail' startup.pk %}" class="btn btn-outline-primary btn-sm">
+                                        View Details
+                                    </a>
+                                    {% if startup.status == 'pending' %}
+                                    <a href="{% url 'update_startup_status' startup.pk 'approved' %}" class="btn btn-success btn-sm">
+                                        Approve
+                                    </a>
+                                    <a href="{% url 'update_startup_status' startup.pk 'declined' %}" class="btn btn-danger btn-sm">
+                                        Decline
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>No startups available for investment at the moment.</p>
+                </div>
+            {% endif %}
+            
+            {% if investments %}
+            <h4 class="mt-5">Your Investments</h4>
+            <div class="row">
+                {% for investment in investments %}
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>{{ investment.startup.title }}</h6>
+                            <p><strong>Amount:</strong> ${{ investment.amount_invested }}</p>
+                            <p><strong>Equity:</strong> {{ investment.equity_acquired }}%</p>
+                            <p><strong>Date:</strong> {{ investment.investment_date|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Register as Investor</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.username|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.email|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.password1|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.password2|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form.phone_number|as_crispy_field }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.bio|as_crispy_field }}
+                            <small class="form-text text-muted">
+                                Tell us about your investment experience, interests, and focus areas.
+                            </small>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                Register as Investor
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p>Already have an account? <a href="{% url 'login' %}" class="text-success">Login here</a></p>
+                        <p>Want to register as a Founder instead? <a href="{% url 'register_founder' %}" class="text-primary">Register as Founder</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5>Benefits of Registering as an Investor:</h5>
+                    <ul class="list-unstyled">
+                        <li>✓ Access to innovative startup pitches</li>
+                        <li>✓ Direct communication with founders</li>
+                        <li>✓ Portfolio management tools</li>
+                        <li>✓ Investment tracking and analytics</li>
+                        <li>✓ Early access to promising startups</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-group {
+    margin-bottom: 1rem;
+}
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: none;
+    border-radius: 10px;
+}
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+}
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-weight: 600;
+}
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+</style>
+{% endblock %}

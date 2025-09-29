@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p class="lead">Founder Dashboard</p>
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Your Startups</h4>
+                <a href="{% url 'create_startup' %}" class="btn btn-primary">+ Add New Startup</a>
+            </div>
+
+            {% if startups %}
+                <div class="row">
+                    {% for startup in startups %}
+                    <div class="col-md-6">
+                        <div class="card status-{{ startup.status }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ startup.title }}</h5>
+                                <p class="card-text">{{ startup.description|truncatewords:20 }}</p>
+                                
+                                <div class="mb-2">
+                                    <strong>Funding:</strong> 
+                                    ${{ startup.funds_raised }} / ${{ startup.funding_amount }}
+                                    <div class="progress mt-1">
+                                        <div class="progress-bar" style="width: {{ startup.get_funding_percentage }}%">
+                                            {{ startup.get_funding_percentage|floatformat:0 }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <strong>Status:</strong> 
+                                    <span class="badge 
+                                        {% if startup.status == 'approved' %}bg-success
+                                        {% elif startup.status == 'declined' %}bg-danger
+                                        {% elif startup.status == 'pending' %}bg-warning
+                                        {% else %}bg-info{% endif %}">
+                                        {{ startup.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <div class="mb-2">
+                                    <strong>Industry:</strong> {{ startup.get_industry_display }}
+                                </div>
+                                
+                                <a href="{% url 'startup_detail' startup.pk %}" class="btn btn-outline-primary btn-sm">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <p>You haven't created any startups yet. <a href="{% url 'create_startup' %}">Create your first startup pitch!</a></p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

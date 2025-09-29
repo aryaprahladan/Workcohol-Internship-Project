@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2>Join as</h2>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Founder</h5>
+                            <p class="card-text">Looking for funding for your startup? Pitch your ideas to investors.</p>
+                            <a href="{% url 'register_founder' %}" class="btn btn-primary">Register as Founder</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Investor</h5>
+                            <p class="card-text">Looking for promising startups to invest in? Discover innovative ideas.</p>
+                            <a href="{% url 'register_investor' %}" class="btn btn-success">Register as Investor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
